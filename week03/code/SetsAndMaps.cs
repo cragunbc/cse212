@@ -42,6 +42,11 @@ public static class SetsAndMaps
         foreach (var line in File.ReadLines(filename))
         {
             var fields = line.Split(",");
+            var degree = 0;
+            if (!degrees.ContainsKey(line))
+            {
+
+            }
             // TODO Problem 2 - ADD YOUR CODE HERE
         }
 
