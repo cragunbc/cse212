@@ -21,8 +21,28 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        // Createse a new set that copies the words that are being passed in
+        var wordList = new HashSet<string>(words);
+        // Creates a new set for all of the pairs
+        var pairs = new HashSet<string>();
+        // Creates a new set of all of the words that have been used so far
+        var usedWords = new HashSet<string>();
+        // Loops through each word in the array of words that are being passed through
+        foreach (string word in words)
+        {
+            // Defines a variable called reverseWord that's equal to the reverse of whatever word is being looked at
+            string reverseWord = string.Concat(word.Reverse());
+            // Sees if the reverse word is in the list of words, the usedWords set doesn't already contain the pair, checks if the words and reverse word aren't the same
+            if (wordList.Contains(reverseWord) && !usedWords.Contains(word) && word != reverseWord)
+            {
+                // If it passes then it's added to the set
+                pairs.Add($"{word} & {reverseWord}");
+                // Add the reverseWord to the list of usedWords
+                usedWords.Add(reverseWord);
+            }
+        }
+        // Returns the set at the end
+        return pairs.ToArray();
     }
 
     /// <summary>
@@ -38,18 +58,32 @@ public static class SetsAndMaps
     /// <returns>fixed array of divisors</returns>
     public static Dictionary<string, int> SummarizeDegrees(string filename)
     {
+        // Defines a new dictionary called "degrees" that will hold the data
         var degrees = new Dictionary<string, int>();
+        // Creates a foreach loop that will read through each line of code
         foreach (var line in File.ReadLines(filename))
         {
+            // Separates each line by a ","
             var fields = line.Split(",");
-            var degree = 0;
-            if (!degrees.ContainsKey(line))
+            // Sets the degree value to 1
+            var degree = 1;
+            // States that the degree from the data is at index 3, or column #4
+            var degreeType = fields[3];
+            // If the degrees dictionary doesn't already contain the degree type that we're looking at
+            if (!degrees.ContainsKey(degreeType))
             {
-
+                // Add the degree type to the dicationary along with the number 1 since this is the first time
+                degrees.Add(degreeType, degree);
             }
-            // TODO Problem 2 - ADD YOUR CODE HERE
-        }
+            // Otherwise, if the degree is already in the dictionary
+            else
+            {
+                // Increase the count of the degree by 1
+                degrees[degreeType] += 1;
+            }
 
+        }
+        // Returns the dictionary once we're done
         return degrees;
     }
 
@@ -71,8 +105,43 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        // TODO Problem 3 - ADD YOUR CODE HERE
+        var anagrams1 = new Dictionary<char, int>();
+        var anagrams2 = new Dictionary<char, int>();
+        foreach (char letter in word1)
+        {
+            char newChar1 = char.ToUpper(letter);
+            if (char.IsWhiteSpace(newChar1))
+            {
+                continue;
+            }
+            if (!anagrams1.ContainsKey(newChar1))
+            {
+                anagrams1.Add(newChar1, 1);
+            }
+            else
+            {
+                anagrams1[newChar1] += 1;
+            }
+        }
+        foreach (char letter in word2)
+        {
+            char newChar2 = char.ToUpper(letter);
+            if (char.IsWhiteSpace(newChar2))
+            {
+                continue;
+            }
+            if (!anagrams2.ContainsKey(newChar2))
+            {
+                anagrams2.Add(newChar2, 1);
+            }
+            else
+            {
+                anagrams2[newChar2] += 1;
+            }
+        }
         return false;
+
+        // TODO Problem 3 - ADD YOUR CODE HERE
     }
 
     /// <summary>
